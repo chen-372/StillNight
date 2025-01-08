@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Atta_Detect/Hitbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pics/smoke.png" type="Texture" id=2]
+[ext_resource path="res://Enemy/Enemy1/Enemy1Bullet.gd" type="Script" id=3]
+[ext_resource path="res://Atta_Detect/ObjectDetectionZone.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 0, 0.632813, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.961864, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 20.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 200.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 200.0
+damping = 2.0
+scale = 0.2
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 52.7194
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 52.2298
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 51.9752
+
+[node name="TestingEnemyBullet" type="KinematicBody2D"]
+scale = Vector2( 0.2, 0.2 )
+collision_layer = 64
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 1 )
+position = Vector2( 14.8819, 0.396851 )
+amount = 20
+visibility_rect = Rect2( -200, -90, 350, 180 )
+local_coords = false
+process_material = SubResource( 6 )
+texture = ExtResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -7.41992, -5.62167 )
+scale = Vector2( 15.8692, 7.58603 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( -0.470027, -9.56261 )
+collision_layer = 0
+collision_mask = 2147483652
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 1.71113, 0.520622 )
+shape = SubResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0.645827, -10.1578 )
+shape = SubResource( 8 )
+
+[node name="auto_evade" parent="." instance=ExtResource( 4 )]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="auto_evade" index="0"]
+position = Vector2( 0.892019, -9.07628 )
+shape = SubResource( 9 )
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
+
+[editable path="Hitbox"]
+
+[editable path="auto_evade"]

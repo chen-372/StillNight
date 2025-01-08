@@ -1,0 +1,269 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pics/cursor.png" type="Texture" id=2]
+[ext_resource path="res://Background.gd" type="Script" id=3]
+[ext_resource path="res://UI/Cursor.gd" type="Script" id=4]
+[ext_resource path="res://ExternalResource/fs.png" type="Texture" id=5]
+[ext_resource path="res://Structure/BuildingSpawnPoint.gd" type="Script" id=6]
+[ext_resource path="res://Sounds/alt0197 - _def.wav" type="AudioStream" id=7]
+[ext_resource path="res://Effect/RandFog.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Structure/TreeSpawnPoint.gd" type="Script" id=9]
+[ext_resource path="res://UI/BatteryUI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Enemy/EnemySpawnPoint.gd" type="Script" id=11]
+[ext_resource path="res://UI/UIs.gd" type="Script" id=12]
+[ext_resource path="res://Effect/Effect_Node.gd" type="Script" id=13]
+[ext_resource path="res://AudioStreamPlayer2D.gd" type="Script" id=15]
+
+[sub_resource type="Environment" id=1]
+fog_color = Color( 0.054902, 0.52549, 1, 1 )
+fog_sun_amount = 1.0
+glow_strength = 2.0
+glow_blend_mode = 0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 520, 10 )
+
+[node name="Game" type="Node2D"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1200, 0 )
+script = ExtResource( 3 )
+speed = 1.5
+
+[node name="back" type="Sprite" parent="ParallaxBackground/Background"]
+position = Vector2( 576, 288 )
+scale = Vector2( 4.8673, 4.22517 )
+texture = ExtResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/Background"]
+margin_left = -64.0
+margin_top = 581.0
+margin_right = 1144.0
+margin_bottom = 621.0
+color = Color( 0.152941, 0.0823529, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="initial_skill" type="Timer" parent="ParallaxBackground/Background"]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[node name="Back" type="Node2D" parent="ParallaxBackground"]
+position = Vector2( 432, 0 )
+
+[node name="BuildingSpawnPoint" type="Position2D" parent="ParallaxBackground/Back"]
+position = Vector2( 1294.74, 429.057 )
+script = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="ParallaxBackground/Back/BuildingSpawnPoint"]
+one_shot = true
+autostart = true
+
+[node name="TreeSpawnPoint" type="Position2D" parent="ParallaxBackground/Back"]
+position = Vector2( 1320, 448 )
+script = ExtResource( 9 )
+
+[node name="Timer" type="Timer" parent="ParallaxBackground/Back/TreeSpawnPoint"]
+one_shot = true
+autostart = true
+
+[node name="RandFog" parent="ParallaxBackground" instance=ExtResource( 8 )]
+position = Vector2( -16, -8 )
+
+[node name="Moveable" type="Node2D" parent="."]
+
+[node name="Player" parent="Moveable" instance=ExtResource( 1 )]
+position = Vector2( 240, 296 )
+
+[node name="SpawnPoints" type="Node2D" parent="Moveable"]
+
+[node name="EnemySpawnPoint" type="Position2D" parent="Moveable/SpawnPoints"]
+position = Vector2( 1328, 296 )
+script = ExtResource( 11 )
+__meta__ = {
+"_gizmo_extents_": 15.0
+}
+
+[node name="Timer" type="Timer" parent="Moveable/SpawnPoints/EnemySpawnPoint"]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="Enemy2Pos" type="Position2D" parent="Moveable/SpawnPoints/EnemySpawnPoint"]
+position = Vector2( 57.6615, 222.059 )
+
+[node name="Enemy1" type="Node2D" parent="Moveable"]
+
+[node name="Enemy2" type="Node2D" parent="Moveable"]
+
+[node name="Effect_Node" type="YSort" parent="Moveable"]
+script = ExtResource( 13 )
+
+[node name="BasicSets" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="BasicSets"]
+environment = SubResource( 1 )
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="BasicSets"]
+stream = ExtResource( 7 )
+autoplay = true
+attenuation = 0.5
+script = ExtResource( 15 )
+
+[node name="Cursor" type="Node2D" parent="BasicSets"]
+modulate = Color( 0.988235, 0.996078, 0, 1 )
+position = Vector2( -33.011, -19.1842 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="BasicSets/Cursor"]
+position = Vector2( -0.417137, 1.83541 )
+scale = Vector2( 1.3, 1.3 )
+z_index = 400
+z_as_relative = false
+texture = ExtResource( 2 )
+
+[node name="Boundary" type="StaticBody2D" parent="BasicSets"]
+position = Vector2( -16, -32 )
+collision_layer = 0
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicSets/Boundary"]
+position = Vector2( 1040, 328 )
+rotation = 4.71239
+shape = SubResource( 2 )
+one_way_collision = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BasicSets/Boundary"]
+position = Vector2( 520, 614.172 )
+shape = SubResource( 2 )
+one_way_collision = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="BasicSets/Boundary"]
+position = Vector2( 16, 320 )
+rotation = 1.5708
+shape = SubResource( 2 )
+one_way_collision = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="BasicSets/Boundary"]
+position = Vector2( 536, 32 )
+rotation = 3.14159
+shape = SubResource( 2 )
+one_way_collision = true
+
+[node name="UIs" type="Node2D" parent="BasicSets"]
+pause_mode = 2
+script = ExtResource( 12 )
+
+[node name="BatteryUI" parent="BasicSets/UIs" instance=ExtResource( 10 )]
+modulate = Color( 1, 1, 1, 0.678431 )
+margin_left = 40.0
+margin_top = 32.0
+margin_right = 80.0
+margin_bottom = 72.0
+
+[node name="Label" type="Label" parent="BasicSets/UIs"]
+modulate = Color( 0, 1, 0.952941, 0.678431 )
+margin_left = 40.0
+margin_top = 80.0
+margin_right = 88.0
+margin_bottom = 94.0
+rect_scale = Vector2( 2, 2 )
+text = "|"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="BasicSets/UIs"]
+modulate = Color( 0, 1, 0.952941, 0.678431 )
+margin_left = 40.0
+margin_top = 160.0
+margin_right = 139.0
+margin_bottom = 174.0
+rect_scale = Vector2( 2, 2 )
+text = "|"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="BasicSets/UIs"]
+modulate = Color( 0, 1, 0.952941, 0.678431 )
+margin_left = 40.0
+margin_top = 120.0
+margin_right = 139.0
+margin_bottom = 134.0
+rect_scale = Vector2( 2, 2 )
+text = "|"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="update_speed" type="Timer" parent="BasicSets/UIs"]
+wait_time = 0.1
+autostart = true
+
+[node name="paused_sign" type="Label" parent="BasicSets/UIs"]
+visible = false
+margin_left = 376.999
+margin_top = 89.7124
+margin_right = 464.999
+margin_bottom = 103.712
+rect_scale = Vector2( 3, 3 )
+text = "Game Paused"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="show_upgrade" type="Button" parent="BasicSets/UIs"]
+pause_mode = 2
+margin_left = 47.3487
+margin_top = 202.015
+margin_right = 156.349
+margin_bottom = 229.016
+text = "Current Upgrades"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="BasicSets/UIs/show_upgrade"]
+margin_left = -30.8703
+margin_top = 34.294
+margin_right = 160.13
+margin_bottom = 328.294
+color = Color( 0, 0, 0, 0.552941 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="BasicSets/UIs/show_upgrade/ColorRect"]
+margin_left = 7.8703
+margin_top = 7.70601
+margin_right = 183.87
+margin_bottom = 286.706
+color = Color( 0, 0.835294, 1, 0.431373 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BasicSets/UIs/show_upgrade/ColorRect"]
+margin_left = 11.0
+margin_top = 12.0
+margin_right = 180.0
+margin_bottom = 284.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="ParallaxBackground/Background/initial_skill" to="ParallaxBackground/Background" method="_on_initial_skill_timeout"]
+[connection signal="timeout" from="ParallaxBackground/Back/BuildingSpawnPoint/Timer" to="ParallaxBackground/Back/BuildingSpawnPoint" method="_on_Timer_timeout"]
+[connection signal="timeout" from="ParallaxBackground/Back/TreeSpawnPoint/Timer" to="ParallaxBackground/Back/TreeSpawnPoint" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Moveable/SpawnPoints/EnemySpawnPoint/Timer" to="Moveable/SpawnPoints/EnemySpawnPoint" method="_on_Timer_timeout"]
+[connection signal="timeout" from="BasicSets/UIs/update_speed" to="BasicSets/UIs" method="_on_update_speed_timeout"]
+[connection signal="pressed" from="BasicSets/UIs/show_upgrade" to="BasicSets/UIs" method="_on_show_upgrade_pressed"]

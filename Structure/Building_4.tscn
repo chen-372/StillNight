@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Structure/Building_Basic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pics/building4.png" type="Texture" id=2]
+[ext_resource path="res://Structure/Screen_Basic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pics/Buildings_Var/Building 5_Version 1.png" type="Texture" id=4]
+[ext_resource path="res://Pics/Buildings_Var/Building 5_Version 3.png" type="Texture" id=5]
+[ext_resource path="res://Pics/Buildings_Var/Building 5_Version 2.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "sprite",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 267.856, 184.449 )
+
+[node name="Building_4" type="Node2D"]
+
+[node name="Building_Basic" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -48.2451 )
+
+[node name="AnimatedSprite" parent="Building_Basic" index="0"]
+modulate = Color( 1, 0.215686, 0.215686, 1 )
+position = Vector2( -0.130959, 0.099205 )
+scale = Vector2( 6.30986, 6.30986 )
+frames = SubResource( 1 )
+animation = "sprite"
+
+[node name="VisibilityNotifier2D" parent="Building_Basic" index="1"]
+visible = false
+position = Vector2( -4.75749, 28.547 )
+scale = Vector2( 26.1749, 17.552 )
+
+[node name="ScreenPos" parent="Building_Basic" index="2"]
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="Screen_Basic" parent="Building_Basic/ScreenPos" index="0" instance=ExtResource( 3 )]
+position = Vector2( -113.113, 49.9373 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="Screen_Basic2" parent="Building_Basic/ScreenPos" index="1" instance=ExtResource( 3 )]
+position = Vector2( -194.286, 150.932 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="Screen_Basic6" parent="Building_Basic/ScreenPos" index="2" instance=ExtResource( 3 )]
+position = Vector2( 212.995, 170.281 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="Screen_Basic4" parent="Building_Basic/ScreenPos" index="3" instance=ExtResource( 3 )]
+position = Vector2( 137.014, 71.6464 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="Screen_Basic7" parent="Building_Basic/ScreenPos" index="4" instance=ExtResource( 3 )]
+position = Vector2( 10.1758, -30.4976 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="Screen_Basic5" parent="Building_Basic/ScreenPos" index="5" instance=ExtResource( 3 )]
+position = Vector2( 77.1793, 142.603 )
+scale = Vector2( 0.108868, 0.108364 )
+is_releaser = true
+
+[node name="ObjectDetectionZone" parent="Building_Basic" index="3"]
+visible = false
+
+[node name="CollisionShape2D" parent="Building_Basic/ObjectDetectionZone" index="0"]
+position = Vector2( -10.7048, 27.754 )
+shape = SubResource( 2 )
+
+[editable path="Building_Basic"]
+
+[editable path="Building_Basic/ObjectDetectionZone"]

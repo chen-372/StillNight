@@ -1,0 +1,157 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://Pics/asdfjyj.png" type="Texture" id=2]
+[ext_resource path="res://Pics/smoke.png" type="Texture" id=3]
+[ext_resource path="res://Atta_Detect/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Atta_Detect/ObjectDetectionZone.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Pics/range.png" type="Texture" id=6]
+[ext_resource path="res://Sounds/shoot.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/player_get_hurt.wav" type="AudioStream" id=8]
+[ext_resource path="res://AudioStreamPlayer2D.gd" type="Script" id=9]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "fly ",
+"speed": 0.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 0.110266, 0.728909, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, -1.19554, 0, 0, Vector2( 1, 0 ), -1.76675, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 3.0
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 200.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.05
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 18.2393
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 18.3746
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 213.048
+
+[node name="Player" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 2.38419e-07, 2.38419e-07 )
+scale = Vector2( 0.335593, 0.335593 )
+frames = SubResource( 1 )
+animation = "fly "
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 2 )
+amount = 40
+lifetime = 1.5
+local_coords = false
+process_material = SubResource( 7 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 8 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+visible = false
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 9 )
+
+[node name="Timer" type="Timer" parent="Hurtbox"]
+wait_time = 0.3
+one_shot = true
+
+[node name="evade" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -1.19209e-07 )
+scale = Vector2( 2.2, 2.2 )
+texture = ExtResource( 6 )
+
+[node name="ObjectDetectionZone" parent="evade" instance=ExtResource( 5 )]
+scale = Vector2( 0.25, 0.25 )
+collision_mask = 64
+
+[node name="CollisionShape2D" parent="evade/ObjectDetectionZone" index="0"]
+position = Vector2( 2.20364, 10.2903 )
+shape = SubResource( 10 )
+
+[node name="evade" type="Timer" parent="evade"]
+wait_time = 0.5
+one_shot = true
+
+[node name="aim_dir" type="Node2D" parent="."]
+visible = false
+
+[node name="right" type="Position2D" parent="aim_dir"]
+position = Vector2( 32, 0 )
+
+[node name="left" type="Position2D" parent="aim_dir"]
+position = Vector2( -32, 0 )
+
+[node name="down" type="Position2D" parent="aim_dir"]
+position = Vector2( 0, 32 )
+
+[node name="up" type="Position2D" parent="aim_dir"]
+position = Vector2( 0, -32 )
+
+[node name="up_left" type="Position2D" parent="aim_dir"]
+position = Vector2( -32, -32 )
+
+[node name="up_right" type="Position2D" parent="aim_dir"]
+position = Vector2( 32, -32 )
+
+[node name="down_left" type="Position2D" parent="aim_dir"]
+position = Vector2( -32, 32 )
+
+[node name="down_right" type="Position2D" parent="aim_dir"]
+position = Vector2( 32, 32 )
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="shoot" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 7 )
+volume_db = -30.0
+script = ExtResource( 9 )
+
+[node name="player_get_hurt" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 8 )
+script = ExtResource( 9 )
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="timeout" from="Hurtbox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="evade/evade" to="." method="_on_evade_timeout"]
+
+[editable path="Hurtbox"]
+
+[editable path="evade/ObjectDetectionZone"]

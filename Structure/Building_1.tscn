@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Pics/building1.png" type="Texture" id=1]
+[ext_resource path="res://Structure/Building_Basic.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Structure/Screen_Basic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pics/Buildings_Var/Building 2_Version 1.png" type="Texture" id=4]
+[ext_resource path="res://Pics/Buildings_Var/Building 2_Version 3.png" type="Texture" id=5]
+[ext_resource path="res://Pics/Buildings_Var/Building 2_Version 2.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "sprite",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15.2084, 40.3923 )
+
+[node name="Buiding_1" type="Node2D"]
+
+[node name="Building_Basic" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0.420471, -26.9431 )
+scale = Vector2( 4, 4 )
+
+[node name="AnimatedSprite" parent="Building_Basic" index="0"]
+position = Vector2( -0.434387, -23.4726 )
+scale = Vector2( 1, 0.929319 )
+frames = SubResource( 1 )
+animation = "sprite"
+
+[node name="VisibilityNotifier2D" parent="Building_Basic" index="1"]
+visible = false
+position = Vector2( 0.256036, -11.6452 )
+scale = Vector2( 2.29479, 4.97782 )
+
+[node name="Screen_Basic" parent="Building_Basic/ScreenPos" index="0" instance=ExtResource( 3 )]
+position = Vector2( 0, -42 )
+scale = Vector2( 0.0313154, 0.0204969 )
+
+[node name="Screen_Basic2" parent="Building_Basic/ScreenPos" index="1" instance=ExtResource( 3 )]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.0146892, 0.0513874 )
+
+[node name="Screen_Basic3" parent="Building_Basic/ScreenPos" index="2" instance=ExtResource( 3 )]
+position = Vector2( 0, 34 )
+scale = Vector2( 0.0232281, 0.0245383 )
+
+[node name="ObjectDetectionZone" parent="Building_Basic" index="3"]
+visible = false
+position = Vector2( 1.73529, -4.80543 )
+
+[node name="CollisionShape2D" parent="Building_Basic/ObjectDetectionZone" index="0"]
+position = Vector2( -1.73529, 10.8054 )
+shape = SubResource( 2 )
+
+[editable path="Building_Basic"]
+
+[editable path="Building_Basic/ObjectDetectionZone"]

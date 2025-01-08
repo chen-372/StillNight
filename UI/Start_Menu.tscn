@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/Start_Menu.gd" type="Script" id=1]
+[ext_resource path="res://Background.gd" type="Script" id=2]
+[ext_resource path="res://ExternalResource/fesx.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/2alt0194 - _def.wav" type="AudioStream" id=4]
+[ext_resource path="res://AudioStreamPlayer2D.gd" type="Script" id=5]
+
+[node name="Start_Menu" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -58.0
+margin_top = -34.0
+margin_right = 1392.0
+margin_bottom = 640.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = 0
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1340, 0 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 647.336, 305.711 )
+scale = Vector2( 2.61619, 1.45007 )
+texture = ExtResource( 3 )
+
+[node name="Control" type="Control" parent="ParallaxBackground"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ParallaxBackground/Control"]
+modulate = Color( 1, 0, 0.866667, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -248.0
+margin_top = -144.0
+margin_right = -146.0
+margin_bottom = -130.0
+rect_scale = Vector2( 5, 5 )
+text = "S t i l l   N i g h t"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="ParallaxBackground/Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -120.0
+margin_top = 200.0
+margin_right = 11.0
+margin_bottom = 214.0
+rect_scale = Vector2( 2, 2 )
+text = "[Press Q to quit]"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="ParallaxBackground/Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -120.0
+margin_top = 88.0
+margin_right = 11.0
+margin_bottom = 102.0
+rect_scale = Vector2( 2, 2 )
+text = "[Press E to start]"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+script = ExtResource( 5 )

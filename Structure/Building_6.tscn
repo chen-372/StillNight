@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Structure/Building_Basic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pics/Buildings_Var/Building 6_Version 1.png" type="Texture" id=2]
+[ext_resource path="res://Structure/Screen_Basic.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "sprite",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 216, 256 )
+
+[node name="Building_6" type="Node2D"]
+
+[node name="Building_Basic" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -88 )
+
+[node name="AnimatedSprite" parent="Building_Basic" index="0"]
+scale = Vector2( 5, 5 )
+frames = SubResource( 1 )
+animation = "sprite"
+
+[node name="VisibilityNotifier2D" parent="Building_Basic" index="1"]
+visible = false
+position = Vector2( 12, -4.00002 )
+scale = Vector2( 20.4, 25.2 )
+
+[node name="Screen_Basic" parent="Building_Basic/ScreenPos" index="0" instance=ExtResource( 3 )]
+position = Vector2( -26.5128, 141.98 )
+scale = Vector2( 0.0861143, 0.141711 )
+
+[node name="Screen_Basic2" parent="Building_Basic/ScreenPos" index="1" instance=ExtResource( 3 )]
+position = Vector2( -19.2722, -5.95001 )
+rotation = 0.313479
+scale = Vector2( 0.0492981, 0.151715 )
+
+[node name="Screen_Basic3" parent="Building_Basic/ScreenPos" index="2" instance=ExtResource( 3 )]
+position = Vector2( -14.6473, -122.835 )
+rotation = -0.72502
+scale = Vector2( 0.0453354, 0.131896 )
+
+[node name="Screen_Basic4" parent="Building_Basic/ScreenPos" index="3" instance=ExtResource( 3 )]
+position = Vector2( 39.5906, -188.004 )
+rotation = 0.742031
+scale = Vector2( 0.0453354, 0.131896 )
+
+[node name="CollisionShape2D" parent="Building_Basic/ObjectDetectionZone" index="0"]
+visible = false
+shape = SubResource( 2 )
+
+[editable path="Building_Basic"]
+
+[editable path="Building_Basic/ObjectDetectionZone"]

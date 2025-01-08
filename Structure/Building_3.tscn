@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Structure/Building_Basic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pics/Building3.png" type="Texture" id=2]
+[ext_resource path="res://Structure/Screen_Basic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pics/Buildings_Var/Building 4_Version1.png" type="Texture" id=4]
+[ext_resource path="res://Pics/Buildings_Var/Building 4_Version 2.png" type="Texture" id=5]
+[ext_resource path="res://Pics/Buildings_Var/Building 4_Version 3.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "sprite",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 45.7967, 37.009 )
+
+[node name="Building_3" type="Node2D"]
+
+[node name="Building_Basic" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -24 )
+scale = Vector2( 5, 5 )
+
+[node name="AnimatedSprite" parent="Building_Basic" index="0"]
+frames = SubResource( 1 )
+animation = "sprite"
+
+[node name="VisibilityNotifier2D" parent="Building_Basic" index="1"]
+visible = false
+position = Vector2( 1.33484, 1.00113 )
+scale = Vector2( 4.38716, 3.51951 )
+
+[node name="Screen_Basic" parent="Building_Basic/ScreenPos" index="0" instance=ExtResource( 3 )]
+position = Vector2( -8.4369, -29.5297 )
+scale = Vector2( 0.0343434, 0.0176621 )
+
+[node name="Screen_Basic2" parent="Building_Basic/ScreenPos" index="1" instance=ExtResource( 3 )]
+position = Vector2( 27.8736, 14.7407 )
+scale = Vector2( 0.0253332, 0.0408991 )
+has_back = false
+
+[node name="AnimatedSprite" parent="Building_Basic/ScreenPos/Screen_Basic2" index="0"]
+visible = false
+
+[node name="CollisionShape2D" parent="Building_Basic/ObjectDetectionZone" index="0"]
+visible = false
+shape = SubResource( 2 )
+
+[editable path="Building_Basic"]
+
+[editable path="Building_Basic/ScreenPos/Screen_Basic2"]
+
+[editable path="Building_Basic/ObjectDetectionZone"]

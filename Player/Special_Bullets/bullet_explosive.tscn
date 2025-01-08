@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player/PlayerBullet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Special_Bullets/bullet_explosive.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 8.0
+
+[node name="bullet_explosive" type="KinematicBody2D"]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="PlayerBullet" parent="." instance=ExtResource( 1 )]
+modulate = Color( 0.87451, 0.878431, 0.145098, 1 )
+bullet_type = "explosive"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+[connection signal="area_entered" from="PlayerBullet/Hitbox" to="." method="_on_Hitbox_area_entered"]
+
+[editable path="PlayerBullet"]

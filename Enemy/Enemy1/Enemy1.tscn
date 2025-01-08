@@ -1,0 +1,98 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Atta_Detect/Hurtbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ExternalResource/asdf2.png" type="Texture" id=2]
+[ext_resource path="res://Enemy/Enemy1/Enemy1.gd" type="Script" id=3]
+[ext_resource path="res://Enemy/Enemystats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemy/EnemyHealthBar.tscn" type="PackedScene" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "fly",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 24.1376
+height = 29.9955
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 24.273
+height = 30.0481
+
+[node name="Enemy1" type="KinematicBody2D"]
+position = Vector2( -20.4907, -2.22724 )
+collision_layer = 16
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 20.4872, 9.85651 )
+scale = Vector2( 0.796321, 0.796321 )
+frames = SubResource( 1 )
+animation = "fly"
+
+[node name="Enemystats" parent="." instance=ExtResource( 4 )]
+health = 12.0
+damage = 10.0
+speed = 200.0
+
+[node name="Hurtbox" parent="." instance=ExtResource( 1 )]
+position = Vector2( 13.672, 10.5247 )
+scale = Vector2( 0.796321, 0.796321 )
+collision_layer = 8
+collision_mask = 0
+is_enemy = true
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 8.3722, -10.0167 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 20.5699, 2.58733 )
+scale = Vector2( 0.800887, 0.800887 )
+shape = SubResource( 3 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 25.4271, 3.97299 )
+
+[node name="wander_update" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="enable_collision" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="shoot_interval" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="shooting_time" type="Timer" parent="."]
+one_shot = true
+
+[node name="shoot_pos" type="Position2D" parent="."]
+position = Vector2( -18.4218, 33.126 )
+
+[node name="shoot_pos2" type="Position2D" parent="."]
+position = Vector2( 60.3373, 33.6388 )
+
+[node name="EnemyHealthBar" parent="." instance=ExtResource( 5 )]
+margin_left = 28.7134
+margin_top = -48.1866
+margin_right = 68.7134
+margin_bottom = -8.18653
+
+[node name="ColorRect" parent="EnemyHealthBar" index="0"]
+color = Color( 1, 0, 0, 0.54902 )
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="timeout" from="wander_update" to="." method="_on_wander_update_timeout"]
+[connection signal="timeout" from="enable_collision" to="." method="_on_enable_collision_timeout"]
+[connection signal="timeout" from="shoot_interval" to="." method="_on_shoot_interval_timeout"]
+[connection signal="timeout" from="shooting_time" to="." method="_on_shooting_time_timeout"]
+
+[editable path="Hurtbox"]
+
+[editable path="EnemyHealthBar"]
